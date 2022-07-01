@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="account_scene_controller">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="750.0">
+         <children>
+            <Label layoutX="14.0" layoutY="19.0" prefHeight="62.0" prefWidth="221.0" text="my account" textFill="#b41515">
+               <font>
+                  <Font name="Arial Bold Italic" size="38.0" />
+               </font>
+            </Label>
+            <Label layoutX="390.0" layoutY="59.0" prefHeight="26.0" prefWidth="91.0" text="user name ">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="user_tx" editable="false" layoutX="482.0" layoutY="59.0" />
+            <Label layoutX="390.0" layoutY="99.0" prefHeight="26.0" prefWidth="91.0" text="email">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="email_tx" editable="false" layoutX="482.0" layoutY="99.0" />
+            <Label layoutX="390.0" layoutY="19.0" prefHeight="26.0" prefWidth="91.0" text="name">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="name_tx" editable="false" layoutX="481.0" layoutY="19.0" />
+            <Label layoutX="390.0" layoutY="139.0" prefHeight="26.0" prefWidth="91.0" text="balance">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="balance_tx" editable="false" layoutX="482.0" layoutY="139.0" />
+         </children>
+      </AnchorPane>
+      <StackPane prefHeight="350.0" prefWidth="200.0">
+         <children>
+            <TableView fx:id="history_table" editable="true" prefHeight="450.0" prefWidth="750.0">
+               <columns>
+                  <TableColumn fx:id="item_name" prefWidth="264.0000427365303" text="name " />
+                  <TableColumn fx:id="quantity" prefWidth="260.79998779296875" text="quantity" />
+<!--                  <TableColumn fx:id="date" prefWidth="260.79998779296875" text="date" />-->
+               </columns>
+            </TableView>
+         </children>
+      </StackPane>
+      <AnchorPane prefHeight="100.0" prefWidth="750.0">
+         <children>
+            <Button fx:id="home_btn" layoutX="125.0" layoutY="28.0" mnemonicParsing="false" onAction="#home_btn_clicked" prefHeight="42.0" prefWidth="200.0" text="go home">
+               <font>
+                  <Font name="Arial Italic" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="wallet_btn" layoutX="425.0" layoutY="28.0" mnemonicParsing="false" onAction="#wallet_btn_clicked" prefHeight="42.0" prefWidth="200.0" text="wallet">
+               <font>
+                  <Font name="Arial Italic" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
