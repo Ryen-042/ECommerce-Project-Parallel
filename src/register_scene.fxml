@@ -17,7 +17,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="15.0" layoutY="211.0" prefHeight="26.0" prefWidth="91.0" text="password">
+            <Label layoutX="14.0" layoutY="171.0" prefHeight="26.0" prefWidth="91.0" text="password">
                <font>
                   <Font size="15.0" />
                </font>
@@ -25,7 +25,7 @@
             <TextField fx:id="name_tx" layoutX="105.0" layoutY="51.0" />
             <TextField fx:id="user_tx" layoutX="106.0" layoutY="91.0" />
             <TextField fx:id="email_tx" layoutX="106.0" layoutY="131.0" />
-            <PasswordField fx:id="pass_tx" layoutX="106.0" layoutY="211.0" />
+            <PasswordField fx:id="pass_tx" layoutX="106.0" layoutY="171.0" />
             <Button fx:id="register_btn" layoutX="51.0" layoutY="271.0" mnemonicParsing="false" onAction="#reg_btn_clicked" prefHeight="26.0" prefWidth="200.0" text="register">
                <font>
                   <Font size="17.0" />
@@ -36,11 +36,11 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="171.0" prefHeight="26.0" prefWidth="91.0" text="credit card">
+<!--            <Label layoutX="14.0" layoutY="171.0" prefHeight="26.0" prefWidth="91.0" text="credit card">
                <font>
                   <Font size="15.0" />
                </font>
-            </Label>
+            </Label>-->
             <Button fx:id="back_btn" layoutX="51.0" layoutY="323.0" mnemonicParsing="false" onAction="#go_back_btn_clicked" prefHeight="26.0" prefWidth="200.0" text="go back">
                <font>
                   <Font size="17.0" />
@@ -51,7 +51,7 @@
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="card_tx" layoutX="106.0" layoutY="171.0" />
+<!--            <TextField fx:id="card_tx" layoutX="106.0" layoutY="171.0" />-->
          </children>
       </AnchorPane>
    </children>

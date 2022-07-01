@@ -51,7 +51,7 @@
                <columns>
                   <TableColumn fx:id="item_name" prefWidth="264.0000427365303" text="name " />
                   <TableColumn fx:id="quantity" prefWidth="260.79998779296875" text="quantity" />
-<!--                  <TableColumn fx:id="date" prefWidth="260.79998779296875" text="date" />-->
+                  <TableColumn fx:id="date" prefWidth="260.79998779296875" text="date" />
                </columns>
             </TableView>
          </children>

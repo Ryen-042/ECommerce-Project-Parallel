@@ -9,7 +9,7 @@ package Connectivity;
  * @author Tayseer
  */
 public class Session {
-        public static int session;
+        private  int session;
 
     public Session(int session) {
         this.session = session;

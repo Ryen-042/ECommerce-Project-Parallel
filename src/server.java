@@ -37,9 +37,11 @@ public class server {
 } 
 class EchoThread extends Thread {
     protected Socket socket;
+    Session session;
     
     public EchoThread(Socket clientSocket) {
         this.socket = clientSocket;
+        session = new Session(0);
     }
 
     public void run() {
@@ -84,8 +86,8 @@ class EchoThread extends Thread {
 
                         if (resultSet.next())
                         {
-                            Session.session = resultSet.getInt("custId");
-                            //session.setSession(resultSet.getInt("custId"));
+//                            session.getSession() = resultSet.getInt("custId");
+                            session.setSession(resultSet.getInt("custId"));
                             out.writeUTF("okc");
                             out.flush();
                         }
@@ -116,7 +118,7 @@ class EchoThread extends Thread {
                             sql="SELECT * FROM customer WHERE username = '"+username+"' AND password = '"+password+"';";                
                             resultSet=statement.executeQuery(sql);
                             resultSet.next();
-                            Session.session = resultSet.getInt("custId");
+                            session.setSession(resultSet.getInt("custId"));
                             //session.setSession(resultSet.getInt("custId"));
                             out.writeUTF("ok");
                             out.flush();                            
@@ -124,14 +126,16 @@ class EchoThread extends Thread {
                         break;
                     case "deposite":
                         int amount = Integer.parseInt((String)in.readUTF());
-                        System.out.println(Session.session);
-                        sql="UPDATE customer SET balance = balance+'"+amount+"' WHERE custId ='"+Session.session+"';";
+//                        System.out.println(session.getSession());
+                        System.out.println(session.getSession());
+                        sql="UPDATE customer SET balance = balance+'"+amount+"' WHERE custId ='"+session.getSession()+"';";
                         statement.executeUpdate(sql);
                         out.writeUTF("ok");
                         out.flush();
                         break;
                     case "Get account info":
-                        sql="SELECT * FROM customer WHERE custid = '"+Session.session+"';";
+                        System.out.println(session.getSession());
+                        sql="SELECT * FROM customer WHERE custid = '"+session.getSession()+"';";
                         resultSet=statement.executeQuery(sql);
                         if (resultSet.next()){
                             out.writeUTF(resultSet.getString("username"));
@@ -142,13 +146,13 @@ class EchoThread extends Thread {
                         }                            
                         break;
                     case "Get purchase info":                        
-                        sql="SELECT count(*) AS num FROM purchase pu, customer c, product p WHERE c.custid = '"+Session.session+"' AND c.custid = pu.custid AND pu.prodid = p.prodid;";
+                        sql="SELECT count(*) AS num FROM purchase pu, customer c, product p WHERE c.custid = '"+session.getSession()+"' AND c.custid = pu.custid AND pu.prodid = p.prodid;";
                         resultSet=statement.executeQuery(sql);
                         resultSet.next();
                         num = resultSet.getInt("num");
                         if (num > 0){
                             out.writeUTF(String.valueOf(num));                        
-                            sql="SELECT p.prodname, pu.purqnt, pu.purDate FROM purchase pu, customer c, product p WHERE c.custid = '"+Session.session+"' AND c.custid = pu.custid AND pu.prodid = p.prodid;";
+                            sql="SELECT p.prodname, pu.purqnt, pu.purDate FROM purchase pu, customer c, product p WHERE c.custid = '"+session.getSession()+"' AND c.custid = pu.custid AND pu.prodid = p.prodid ORDER BY pu.purdate desc;";
                             resultSet=statement.executeQuery(sql);
                             while (resultSet.next())
                             {
@@ -238,15 +242,15 @@ class EchoThread extends Thread {
                         }
                         break;
                     case "Get cart data":
-                        sql = "UPDATE cart c, product p SET c.orderQnt = p.prodStockQnt WHERE p.prodid = c.prodid AND custid = '"+Session.session+"' AND c.orderqnt > p.prodStockQnt;";
+                        sql = "UPDATE cart c, product p SET c.orderQnt = p.prodStockQnt WHERE p.prodid = c.prodid AND custid = '"+session.getSession()+"' AND c.orderqnt > p.prodStockQnt;";
                         statement.executeUpdate(sql);
-                        sql="SELECT count(*) AS num FROM cart WHERE custid = '"+Session.session+"' AND orderqnt > 0;";
+                        sql="SELECT count(*) AS num FROM cart WHERE custid = '"+session.getSession()+"' AND orderqnt > 0;";
                         resultSet=statement.executeQuery(sql);
                         resultSet.next();
                         num = resultSet.getInt("num");
                         if (num > 0){
                             out.writeUTF(String.valueOf(num));                        
-                            sql="SELECT * FROM cart c, product p WHERE p.prodid = c.prodid AND c.custid = '"+Session.session+"' AND orderqnt > 0;";
+                            sql="SELECT * FROM cart c, product p WHERE p.prodid = c.prodid AND c.custid = '"+session.getSession()+"' AND orderqnt > 0;";
                             resultSet=statement.executeQuery(sql);
                             while (resultSet.next())
                             {
@@ -277,7 +281,7 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;
                             }
-                            sql = "SELECT * FROM customer WHERE custid = '"+Session.session+"';";
+                            sql = "SELECT * FROM customer WHERE custid = '"+session.getSession()+"';";
                             resultSet=statement.executeQuery(sql);
                             resultSet.next();
                             if (resultSet.getInt("balance") < qnt * price)
@@ -286,11 +290,11 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;                                
                             }
-                            sql = "INSERT INTO purchase(purqnt,prodid,custid) VALUES('"+qnt+"','"+id+"','"+Session.session+"');";
+                            sql = "INSERT INTO purchase(purqnt,prodid,custid) VALUES('"+qnt+"','"+id+"','"+session.getSession()+"');";
                             statement.executeUpdate(sql);
                             sql = "UPDATE product SET prodStockQnt = prodStockQnt - '"+qnt+"' WHERE prodid = '"+id+"';";
                             statement.executeUpdate(sql);
-                            sql = "UPDATE customer SET balance = balance - '"+qnt*price+"' WHERE custid = '"+Session.session+"';";
+                            sql = "UPDATE customer SET balance = balance - '"+qnt*price+"' WHERE custid = '"+session.getSession()+"';";
                             statement.executeUpdate(sql);
                             out.writeUTF("ok");
                             out.flush();
@@ -314,7 +318,7 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;
                             }
-                            sql = "SELECT * FROM cart WHERE custid = '"+Session.session+"' AND prodid = '"+id+"';";
+                            sql = "SELECT * FROM cart WHERE custid = '"+session.getSession()+"' AND prodid = '"+id+"';";
                             resultSet=statement.executeQuery(sql);
                             if (resultSet.next()){
                                 if (resultSet.getInt("orderQnt") + qnt > prodqnt){
@@ -324,13 +328,13 @@ class EchoThread extends Thread {
                                     out.flush();
                                 }
                                 else{
-                                    sql = "UPDATE cart SET orderQnt = orderQnt + '"+qnt+"' WHERE custid = '"+Session.session+"' AND prodid = '"+id+"';";
+                                    sql = "UPDATE cart SET orderQnt = orderQnt + '"+qnt+"' WHERE custid = '"+session.getSession()+"' AND prodid = '"+id+"';";
                                     statement.executeUpdate(sql);
                                     out.writeUTF("ok");                                    
                                 }
                             }
                             else{
-                                sql = "INSERT INTO cart VALUES('"+Session.session+"','"+id+"', '"+qnt+"');";
+                                sql = "INSERT INTO cart VALUES('"+session.getSession()+"','"+id+"', '"+qnt+"');";
                                 statement.executeUpdate(sql);
                                 out.writeUTF("ok");
                                 out.flush();
@@ -355,7 +359,7 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;
                             }                            
-                            sql = "UPDATE cart SET orderQnt = '"+qnt+"' WHERE custid = '"+Session.session+"' AND prodid = '"+id+"';";
+                            sql = "UPDATE cart SET orderQnt = '"+qnt+"' WHERE custid = '"+session.getSession()+"' AND prodid = '"+id+"';";
                             statement.executeUpdate(sql);
                             out.writeUTF("cart ok");
                         }
@@ -375,7 +379,7 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;
                             }
-                            sql = "SELECT * FROM customer WHERE custid = '"+Session.session+"';";
+                            sql = "SELECT * FROM customer WHERE custid = '"+session.getSession()+"';";
                             resultSet=statement.executeQuery(sql);
                             resultSet.next();
                             if (resultSet.getInt("balance") < qnt * price)
@@ -384,13 +388,13 @@ class EchoThread extends Thread {
                                 out.flush();
                                 break;                                
                             }
-                            sql = "INSERT INTO purchase(purqnt,prodid,custid) VALUES('"+qnt+"','"+id+"','"+Session.session+"');";
+                            sql = "INSERT INTO purchase(purqnt,prodid,custid) VALUES('"+qnt+"','"+id+"','"+session.getSession()+"');";
                             statement.executeUpdate(sql);
                             sql = "UPDATE product SET prodStockQnt = prodStockQnt - '"+qnt+"' WHERE prodid = '"+id+"';";
                             statement.executeUpdate(sql);
-                            sql = "UPDATE customer SET balance = balance - '"+qnt*price+"' WHERE custid = '"+Session.session+"';";
+                            sql = "UPDATE customer SET balance = balance - '"+qnt*price+"' WHERE custid = '"+session.getSession()+"';";
                             statement.executeUpdate(sql);
-                            sql = "DELETE FROM cart WHERE custid = '"+Session.session+"' AND prodid = '"+id+"';";
+                            sql = "DELETE FROM cart WHERE custid = '"+session.getSession()+"' AND prodid = '"+id+"';";
                             statement.executeUpdate(sql);
                             out.writeUTF("ok");
                             out.flush();
@@ -406,7 +410,7 @@ class EchoThread extends Thread {
                         resultSet=statement.executeQuery(sql);
                         if (resultSet.next())
                         {
-                            sql = "DELETE FROM cart WHERE custid = '"+Session.session+"' AND prodid = '"+id+"';";
+                            sql = "DELETE FROM cart WHERE custid = '"+session.getSession()+"' AND prodid = '"+id+"';";
                             statement.executeUpdate(sql);
                             out.writeUTF("ok");
                             out.flush();                            

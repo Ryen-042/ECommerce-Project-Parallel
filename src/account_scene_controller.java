@@ -31,8 +31,8 @@ public class account_scene_controller implements Initializable {
     @FXML
     private TableColumn<account_item, String> quantity;
 
-//    @FXML
-//    private TableColumn<account_item, String> date;
+    @FXML
+    private TableColumn<account_item, String> date;
 
     @FXML
     private TextField balance_tx;
@@ -112,7 +112,7 @@ public class account_scene_controller implements Initializable {
         }catch(Exception e){System.out.println(e);}  
         item_name.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getitem_name()));
         quantity.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getquantity()));
-//        date.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getDate()));
+        date.setCellValueFactory(f -> new SimpleStringProperty(f.getValue().getDate()));
 
 
     }

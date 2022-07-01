@@ -20,9 +20,6 @@ public class register_scene_controller {
     private Button back_btn;
 
     @FXML
-    private TextField card_tx;
-
-    @FXML
     private TextField email_tx;
 
     @FXML

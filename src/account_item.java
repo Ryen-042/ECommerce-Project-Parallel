@@ -8,6 +8,7 @@ public class account_item implements Serializable{
     account_item(String item_name, String quantity, String date) {
         this.item_name = new String(item_name);
         this.quantity = quantity;
+        this.date = date;
      }
 
     public String getDate() {

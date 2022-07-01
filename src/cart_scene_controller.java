@@ -91,6 +91,8 @@ public class cart_scene_controller implements Initializable {
                     data.add(item);
                 }
                 cart_table.setItems(data);                
+            }else{
+                cart_table.getItems().clear();
             }
 
         }catch(Exception e){System.out.println(e);}  
@@ -141,6 +143,8 @@ public class cart_scene_controller implements Initializable {
                     data.add(item);
                 }
                 cart_table.setItems(data);                
+            }else{
+                cart_table.getItems().clear();
             }
 
         }catch(Exception e){System.out.println(e);}  

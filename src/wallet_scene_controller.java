@@ -36,11 +36,14 @@ public class wallet_scene_controller {
     @FXML
     void deposit_btn_clicked(ActionEvent event) throws IOException {
         String amounttx = amount_tx.getText();
-        int amount = Integer.parseInt(amounttx);
+        int amount = 0;
+        try{
+        amount = Integer.parseInt(amounttx);
+            }catch(Exception e){amount = 0;}  
         if (amount <= 0)
-            wrong_amount();
+            wrong_amount("Enter valid amount!");
+        else{
             try{    
-                App.setmysocket(new Socket("localhost",1978)); //"192.168.1.7"
                 DataOutputStream dout=new DataOutputStream(App.getmysocket().getOutputStream());
                 DataInputStream din=new DataInputStream(App.getmysocket().getInputStream());  
                 dout.writeUTF("deposite");
@@ -49,25 +52,24 @@ public class wallet_scene_controller {
                 String str=(String)din.readUTF();  
                 System.out.println(str);
                 if (str.equals("ok")){
-                    // Done message                
                     Parent start_parent = FXMLLoader.load(getClass().getResource( "account_scene.fxml"));
                     Scene start = new Scene(start_parent);
                     Stage window = (Stage)((Node) event.getSource()).getScene().getWindow();
                     window.setScene(start);
                     window.show();
-                }   
+                }
                 else{
                     wrong_connection();
                 }
-                
-        }catch(Exception e){System.out.println(e);}  
 
+            }catch(Exception e){System.out.println(e);}  
+        }
     }    
-    void wrong_amount(){
+    void wrong_amount(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Enter valid amount!");
+        alert.setContentText(message);
         alert.showAndWait();  
     }
     void wrong_connection(){
